@@ -1,4 +1,7 @@
 webfiles/*
 downloads/*
+.vagrant
+node_modules
+.bower
 !swdv_*
 
