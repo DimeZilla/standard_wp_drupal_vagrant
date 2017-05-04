@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DIR=$(pwd)
+echo "Working from $DIR"
+
 #update our box
 apt-get update -y && apt-get upgrade -y
 
@@ -14,15 +17,15 @@ apt-get install -y php5 php5-mysql libapache2-mod-php5 php5-mcrypt php5-common
 #set our webfiles directory to the default var www html directory
 if [ ! -d /vagrant/webfiles ]; then
     mkdir /vagrant/webfiles
+    touch /vagrant/webfiles/README.txt
+    cp $DIR/swdv_README.txt /vagrant/webfiles/swdv_README.txt
 fi
-touch /vagrant/webfiles/README.txt
-cp ./wp_setup_assets/webfiles_README.txt /vagrant/webfiles/README.txt
 
 rm -rf /var/www/html && ln -s /vagrant/webfiles /var/www/html
 
 #sed install our directory rules if we have an allow block .conf file
 if [ -f ./wp_setup_assets/apache_allow_block.conf ]; then
-	sed -i "/DocumentRoot\ \/var\/www\/html/r ./wp_setup_assets/apache_allow_block.conf" /etc/apach e2/sites-enabled/000-default.conf
+	sed -i "/DocumentRoot\ \/var\/www\/html/r $DIR/apache_allow_block.conf" /etc/apach e2/sites-enabled/000-default.conf
 fi
 #restart apache
 service restart apache2

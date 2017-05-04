@@ -6,5 +6,5 @@ Vagrant.configure(2) do |config|
     vb.memory=2048
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
   end
-  config.vm.provision "shell", path: "ubuntu_wp.sh"
+  config.vm.provision "shell", path: "./setup_assets/ubuntu_wp.sh"
 end
