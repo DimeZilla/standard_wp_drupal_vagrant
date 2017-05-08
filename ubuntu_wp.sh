@@ -15,6 +15,7 @@ a2enmod rewrite
 
 #install php5 and php5 mysql dependencies
 apt-get install -y php5.6 php5.6-mysql libapache2-mod-php5.6 php5.6-mcrypt php5.6-common
+apt-get install -y php5.6-xml php5.6-gd
 
 #set our webfiles directory to the default var www html directory
 if [ ! -d /vagrant/webfiles ]; then
