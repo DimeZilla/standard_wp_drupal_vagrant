@@ -7,4 +7,7 @@ Vagrant.configure(2) do |config|
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
   end
   config.vm.provision "shell", path: "./setup_assets/ubuntu_wp.sh"
+  config.vm.provision "shell", run: "always" do |s|
+    s.inline = "echo \"IP address for host file: \" && ifconfig eth1 | grep \"inet addr\" | awk '{ print $2 }' | sed -n -e 's/.*://p'"
+  end
 end

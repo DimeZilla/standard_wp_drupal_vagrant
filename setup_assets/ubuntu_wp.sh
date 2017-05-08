@@ -30,8 +30,4 @@ fi
 #restart apache
 service restart apache2
 
-#outputs ip address for host file configuration
-echo "Server IP for hosts file "
-ifconfig eth0 | grep inet | awk '{ print $2 }'
-
 cd $DIR
