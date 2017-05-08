@@ -10,4 +10,5 @@ I created this for me so that I could simply save my ideal vagrant setup for lau
 # Installation
 Run `vagrant up` you doofus!
 
-
+# Feedback
+Always welcome! Feel free to use this project. Just let me know how you like it. Diamond.joshh@gmail.com
