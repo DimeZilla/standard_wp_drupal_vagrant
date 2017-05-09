@@ -4,4 +4,4 @@ downloads/*
 node_modules
 .bower
 !swdv_*
-
+*cloudimg-console.log
