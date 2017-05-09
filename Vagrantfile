@@ -1,5 +1,5 @@
 Vagrant.configure(2) do |config| 
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/xenial64"
   config.vm.network "private_network", type: "dhcp"
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
@@ -8,6 +8,6 @@ Vagrant.configure(2) do |config|
   end
   config.vm.provision "shell", path: "./setup_assets/ubuntu_wp.sh"
   config.vm.provision "shell", run: "always" do |s|
-    s.inline = "echo \"IP address for host file: \" && ifconfig eth1 | grep \"inet addr\" | awk '{ print $2 }' | sed -n -e 's/.*://p'"
+    s.inline = "echo \"IP address for host file: \" && ifconfig enp0s8 | grep \"inet addr\" | awk '{ print $2 }' | sed -n -e 's/.*://p'"
   end
 end
