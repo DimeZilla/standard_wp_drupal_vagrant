@@ -33,6 +33,6 @@ fi
 a2enmod rewrite
 
 #restart apache
-service restart apache2
+service apache2 restart
 
 cd $DIR
