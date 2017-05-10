@@ -10,12 +10,11 @@ apt-get update -y && apt-get upgrade -y
 
 #install apapche
 apt-get install -y apache2 libapache2-mod-auth-mysql
-#enable mod_rewrite
-a2enmod rewrite
 
 #install php5 and php5 mysql dependencies
-apt-get install -y php5.6 php5.6-mysql libapache2-mod-php5.6 php5.6-mcrypt php5.6-common
-apt-get install -y php5.6-xml php5.6-gd
+apt-get install -y php php-mysql libapache2-mod-php php-mcrypt php-common
+#specific drupal dependencies
+apt-get install -y php-xml php-gd
 
 #set our webfiles directory to the default var www html directory
 if [ ! -d /vagrant/webfiles ]; then
@@ -29,6 +28,10 @@ rm -rf /var/www/html && ln -s /vagrant/webfiles /var/www/html
 if [ -f $BASEDIR/apache_allow_block.conf ]; then
 	sed -i "/DocumentRoot\ \/var\/www\/html/r $BASEDIR/apache_allow_block.conf" /etc/apache2/sites-enabled/000-default.conf
 fi
+
+#enable mod_rewrite
+a2enmod rewrite
+
 #restart apache
 service restart apache2
 
