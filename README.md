@@ -19,6 +19,8 @@ chmod +x craete_dev.sh
 Now you can run create_dev anywhere and pass it a project name like so
 ```
 create_dev my-project
+cd my-project
+vagrant up
 ```
 
 # Feedback
