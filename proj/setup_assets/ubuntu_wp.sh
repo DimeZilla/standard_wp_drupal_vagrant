@@ -26,7 +26,7 @@ rm -rf /var/www/html && ln -s /vagrant/webfiles /var/www/html
 
 #sed install our directory rules if we have an allow block .conf file
 if [ -f $BASEDIR/apache_allow_block.conf ]; then
-	sed -i "/DocumentRoot\ \/var\/www\/html/r $BASEDIR/apache_allow_block.conf" /etc/apache2/sites-enabled/000-default.conf
+	sed -i "/DocumentRoot\ \/var\/www\/html/r $BASEDIR/apache_allow_block.conf" /etc/apache2/sites-available/000-default.conf
 fi
 
 #enable mod_rewrite
