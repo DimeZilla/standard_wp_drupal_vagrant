@@ -8,7 +8,20 @@ I created this for me so that I could simply save my ideal vagrant setup for lau
            if you try to run it in mac. not sure. Portability of this program is totally untested.
 
 # Installation
-Run `vagrant up` you doofus!
+Git clone the project, cd into the directory and run:
+```
+chmod +x setup.sh
+chmod +x craete_dev.sh
+./setup.sh
+```
+
+# USAGE
+Now you can run create_dev anywhere and pass it a project name like so
+```
+create_dev my-project
+cd my-project
+vagrant up
+```
 
 # Feedback
 Always welcome! Feel free to use this project. Just let me know how you like it. Diamond.joshh@gmail.com
