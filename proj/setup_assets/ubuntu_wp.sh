@@ -12,7 +12,7 @@ apt-get update -y && apt-get upgrade -y
 apt-get install -y apache2 libapache2-mod-auth-mysql
 
 #install php5 and php5 mysql dependencies
-apt-get install -y php php-mysql libapache2-mod-php php-mcrypt php-common
+apt-get install -y php php-mysql libapache2-mod-php php-mcrypt php-common mysql-client
 #specific drupal dependencies
 apt-get install -y php-xml php-gd
 
