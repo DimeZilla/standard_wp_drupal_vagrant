@@ -8,13 +8,13 @@ cd $BASEDIR
 add-apt-repository ppa:ondrej/php
 apt-get update -y && apt-get upgrade -y
 
-#install apapche
-apt-get install -y apache2 libapache2-mod-auth-mysql
-
-#install php5 and php5 mysql dependencies
-apt-get install -y php php-mysql libapache2-mod-php php-mcrypt php-common mysql-client
-#specific drupal dependencies
-apt-get install -y php-xml php-gd
+# This takes a little longer but it ensures that the whole command won't necessarily
+# fail when a package no longer exsists
+dependencies=( "apache2" "libapache2-mod-auth-mysql" "php" "php-mysql" "libapache2-mod-php" "php-mcrypt" "php-common" "mysql-client" "php-xml" "php-gd" )
+for elem in ${dependencies[@]}
+do
+  apt-get install -y $elem
+done
 
 #set our webfiles directory to the default var www html directory
 if [ ! -d /vagrant/webfiles ]; then
@@ -29,10 +29,14 @@ if [ -f $BASEDIR/apache_allow_block.conf ]; then
 	sed -i "/DocumentRoot\ \/var\/www\/html/r $BASEDIR/apache_allow_block.conf" /etc/apache2/sites-available/000-default.conf
 fi
 
+# one more update
+apt-get update -y && apt-get upgrade -y
+
 #enable mod_rewrite
 a2enmod rewrite
 
 #restart apache
 service apache2 restart
+
 
 cd $DIR
