@@ -10,11 +10,19 @@ apt-get update -y && apt-get upgrade -y
 
 # This takes a little longer but it ensures that the whole command won't necessarily
 # fail when a package no longer exsists
-dependencies=( "apache2" "libapache2-mod-auth-mysql" "php" "php-mysql" "libapache2-mod-php" "php-mcrypt" "php-common" "mysql-client" "php-xml" "php-gd" )
-for elem in ${dependencies[@]}
-do
-  apt-get install -y $elem
-done
+dependencies=( "apache2" "libapache2-mod-auth-mysql" "libapache2-mod-php" "mysql-client" )
+phpdeps=( "php" "php-mysql" "php-mcrypt" "php-common" "php-xml" "php-gd" )
+
+depInstaller(){
+    deps=("${!1}")
+    for elem in ${deps[@]}
+    do
+      apt-get install -y $elem
+    done
+}
+
+depInstaller dependencies[@]
+depInstaller phpdeps[@]
 
 #set our webfiles directory to the default var www html directory
 if [ ! -d /vagrant/webfiles ]; then
@@ -26,7 +34,7 @@ rm -rf /var/www/html && ln -s /vagrant/webfiles /var/www/html
 
 #sed install our directory rules if we have an allow block .conf file
 if [ -f $BASEDIR/apache_allow_block.conf ]; then
-	sed -i "/DocumentRoot\ \/var\/www\/html/r $BASEDIR/apache_allow_block.conf" /etc/apache2/sites-available/000-default.conf
+    sed -i "/DocumentRoot\ \/var\/www\/html/r $BASEDIR/apache_allow_block.conf" /etc/apache2/sites-available/000-default.conf
 fi
 
 # one more update
