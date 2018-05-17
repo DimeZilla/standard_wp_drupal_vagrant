@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
   # lets give it a name that matches the folder name
   # This makes it so that we can store our meta data
   # anywhere by calling the machines folder something other than default
-  config.vm.define File.basename(Dir.getwd)
+  config.vm.define File.basename(File.dirname(__FILE__))
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false

@@ -11,10 +11,10 @@ apt-get upgrade -y
 
 # This takes a little longer but it ensures that the whole command won't necessarily
 # fail when a package no longer exsists
-dependencies=( "apache2" "libapache2-mod-auth-mysql" "libapache2-mod-php" "mysql-client" )
+dependencies=( "apache2" "libapache2-mod-auth-mysql" "mysql-client" )
 
-phpdeps=( "php" "php-mysql" "php-mcrypt" "php-common" "php-xml" "php-gd" )
-php71deps=( "php7.1" "php7.1-mysql" "php7.1-mcrypt" "php7.1-common" "php7.1-xml" "php7.1-gd" )
+phpdeps=( "php" "php-mysql" "php-mcrypt" "php-common" "php-xml" "php-gd" "libapache2-mod-php" )
+php71deps=( "php7.1" "php7.1-mysql" "php7.1-mcrypt" "php7.1-common" "php7.1-xml" "php7.1-gd" "libapache2-mod-php7.1" )
 
 depInstaller(){
     deps=("${!1}")
