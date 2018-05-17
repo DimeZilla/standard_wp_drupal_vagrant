@@ -19,7 +19,7 @@ Vagrant.configure(2) do |config|
   end
 
   # change this to true if you want to install php version 7.1.
-  legacy = false
+  legacy = true
   if legacy
     config.vm.provision "shell", path: "./setup_assets/ubuntu_wp.sh", args: ['Y']
   else
