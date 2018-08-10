@@ -1,6 +1,7 @@
 # About
 ### author: Joshua Diamond <diamond.joshh@gmail.com>
 ### License: GNU GENERAL PUBLIC LICENSE
+### Version: v2.0-beta
 
 # What
 Provides a linux command-line utility named `vagrant-create` for quickly creating vagrant projects.
@@ -24,10 +25,39 @@ chmod +x setup.sh
 
 # Usage
 Now you can run create_dev anywhere and pass it a project name like so
+
+## Simple
 ```
 vagrant-create my-project
 cd my-project
 vagrant up
+```
+
+## Advanced
+The command also supports a number of options:
+- `--php`  sets the php version that the vagrant box will install
+- `--forward-guest-port`  sets which port on the box to foward to the host
+- `--forward-host-port`   sets which port on the host to view the guest port
+- `--apache-web-dir`    installs apache which a specific document root
+- `--vagrant-box`     to change teh default vagrant box
+
+### Defaults:
+PHP: 7.1
+FORWARD_GUEST_PORT: 80
+FORWARD_HOST_PORT: 8080
+APACHE_WEB_DIR: /var/www/html
+VAGRANT_BOX: ubuntu/xenial64
+
+### Example Advanced Usage
+This following command creates a directory called "my-project" and configures vagrant install the vagrant box "ubuntu/trusty64". It configures vagrant to forward the virtualbox's guest from 8080 to the host's port 3000. It installs php 5.6. It configures apache to serve the application from the document root "/var/www/html/public". Perhaps this configuration would be good for older laravel versions.
+
+```
+vagrant-create --php=5.6 \
+    --forward-guest-port=8080 \
+    --forward-host-port=3000 \
+    --apache-web-dir=/var/www/html/public \
+    --vagrant-box="ubuntu/trusty64" \
+    my-project
 ```
 
 # How it works
