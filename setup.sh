@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-INSTALLPATH=/usr/share/jhd_create_dev
+INSTALLPATH=/usr/share/vagrant-create
 CURDIR=$(dirname $(readlink -f "$0"))
+
+# make our vagrant-create script executable
+chmod +x vagrant-create.sh
 
 if [ ! -d $INSTALLPATH ]; then
   mkdir $INSTALLPATH
@@ -11,10 +14,10 @@ fi
 
 cp -r $CURDIR $INSTALLPATH
 
-LINKPATH=/usr/bin/create_dev
+LINKPATH=/usr/bin/vagrant-create
 
 if [ -L $LINKPATH ]; then
     unlink $LINKPATH
 fi
 
-ln -s $INSTALLPATH/create_dev.sh $LINKPATH 
+ln -s $INSTALLPATH/create_dev.sh $LINKPATH

@@ -6,29 +6,28 @@ I created this for me so that I could simply save my ideal vagrant setup for lau
 
 # Dependencies
 - Requires a Vagrant installation.
-- Linux - was written on cygwin in Windows 10
-     Note: You might have to install dostounix and convert the line endings of some of these files
-           if you try to run it in mac. not sure. Portability of this program is totally untested.
+- Linux - was written on Windows Subsystem Linux in Windows 10
+     Note: You might have to install dos2unix and convert the line endings of some of these files
+           if you try to run it in mac. not sure. Portability of this program is totally untested. Feel free to give it a shot and write me back or open an issue.
 
 # Installation
 View the releases tab to get a copy of the project.
 
 ```
 chmod +x setup.sh
-chmod +x craete_dev.sh
 ./setup.sh
 ```
 
 # Usage
 Now you can run create_dev anywhere and pass it a project name like so
 ```
-create_dev my-project
+vagrant-create my-project
 cd my-project
 vagrant up
 ```
 
 # How it works
-`create_dev [project_name]` will create a folder with what ever you put as the project name. It will then copy everything in `./proj` into that folder.
+`vagrant-create [project_name]` will create a folder with what ever you put as the project name. It will then copy everything in `./proj` into that folder.
 
 # Default Configuration
 By default the dev environment created is an ubuntu/xenial64 vagrant box. `./proj/setup_assets/ubuntu_wp.sh` is the main provisioner. This will install php 7.1 and apache. It will also overwrite the default `/etc/apache2/sites-available/000-default.conf` with `./proj/setup_assets/apache_config.conf`. For any custom apache2 configuration, you can change the apache_config.conf file how ever you like before running `vagrant up` for the first time.
