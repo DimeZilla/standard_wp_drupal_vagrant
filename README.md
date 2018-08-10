@@ -41,13 +41,6 @@ The command also supports a number of options:
 - `--apache-web-dir`    installs apache which a specific document root
 - `--vagrant-box`     to change teh default vagrant box
 
-### Defaults:
-- PHP: 7.1
-- FORWARD_GUEST_PORT: 80
-- FORWARD_HOST_PORT: 8080
-- APACHE_WEB_DIR: /var/www/html
-- VAGRANT_BOX: ubuntu/xenial64
-
 ### Example Advanced Usage
 This following command creates a directory called "my-project" and configures vagrant install the vagrant box "ubuntu/trusty64". It configures vagrant to forward the virtualbox's guest from 8080 to the host's port 3000. It installs php 5.6. It configures apache to serve the application from the document root "/var/www/html/public". Perhaps this configuration would be good for older laravel versions.
 
@@ -61,12 +54,20 @@ vagrant-create --php=5.6 \
 ```
 
 # How it works
-`vagrant-create [project_name]` will create a folder with what ever you put as the project name. It will then copy everything in `./proj` into that folder.
+`vagrant-create [project_name]` will create a folder with what ever you put as the project name. It will then copy everything in `./src` into that folder and run `sed` to update the files with our configuration options outlined above.
 
 # Default Configuration
-By default the dev environment created is an ubuntu/xenial64 vagrant box. `./proj/setup_assets/ubuntu_wp.sh` is the main provisioner. This will install php 7.1 and apache. It will also overwrite the default `/etc/apache2/sites-available/000-default.conf` with `./proj/setup_assets/apache_config.conf`. For any custom apache2 configuration, you can change the apache_config.conf file how ever you like before running `vagrant up` for the first time.
 
-The `VagrantFile` in `./proj/` becomes the boxes VagrantFile. Feel free to change this as well before running `vagrant up` for the first time. In this file, there is a variable called `version` around line 23. This variable passes the version argument to the provisioner script, `ubuntu_wp.sh`, to tell the script which version of php to install. To tell vagrant to install the latest version, just change this variable to "latest". Right now, 5.6, 7.1 and latest are php versins supported.
+### Defaults:
+- PHP: 7.1
+- FORWARD_GUEST_PORT: 80
+- FORWARD_HOST_PORT: 8080
+- APACHE_WEB_DIR: /var/www/html
+- VAGRANT_BOX: ubuntu/xenial64
+
+By default the dev environment created is an ubuntu/xenial64 vagrant box. After you've created your project using `vagrant-create`: `[project name]/setup_assets/provisioner.sh` is the main provisioner. This will install php 7.1 and apache. It will also overwrite the default `/etc/apache2/sites-available/000-default.conf` with `[project name]/setup_assets/apache_config.conf`. For any custom apache2 configuration, you can change the apache_config.conf file how ever you like before running `vagrant up` for the first time.
+
+The `VagrantFile` here in `./src/` becomes the boxes VagrantFile. Feel free to change this as well after creating your project using `vagrant-create` and before running `vagrant up` for the first time. In this file, there is a variable called `version` around line 23. This variable passes the version argument to the provisioner script, `provisioner.sh`, to tell the script which version of php to install. To tell vagrant to install the latest version, just change this variable to "latest". Right now, 5.6, 7.1 and latest are php versins supported. Of course, if you use `vagrant-create --php=latest [project name]` this will set that variable for you before the project is created.
 
 # Feedback
 Always welcome! Feel free to use this project. Just let me know how you like it. Diamond.joshh@gmail.com
