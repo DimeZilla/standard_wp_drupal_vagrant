@@ -24,7 +24,7 @@ chmod +x setup.sh
 ```
 
 # Usage
-Now you can run create_dev anywhere and pass it a project name like so
+Now you can run `vagrant-create` anywhere and pass it a project name like so
 
 ## Simple
 ```
