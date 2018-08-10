@@ -1,8 +1,9 @@
 Vagrant.configure(2) do |config|
   # This is which box to use
   config.vm.box = "ubuntu/xenial64"
-  # This is the type of private network
-  config.vm.network "private_network", type: "dhcp"
+
+  # Setting up a forward port network to point to 8080
+  config.vm.network "forwarded_port", guest: 80, host: 8080
 
   # lets give it a name that matches the folder name
   # This makes it so that we can store our meta data
