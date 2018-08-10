@@ -1,9 +1,9 @@
 Vagrant.configure(2) do |config|
   # This is which box to use
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "VAGRANT_BOX"
 
   # Setting up a forward port network to point to 8080
-  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: FORWARD_GUEST_PORT, host: FORWARD_HOST_PORT
 
   # lets give it a name that matches the folder name
   # This makes it so that we can store our meta data
@@ -20,7 +20,7 @@ Vagrant.configure(2) do |config|
   end
 
   # change this to true if you want to install php version 7.1.
-  version = "7.1"
+  version = "PHP_VERSION"
   if version == "latest"
     config.vm.provision "shell", path: "./setup_assets/provisioner.sh"
   else

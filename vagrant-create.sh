@@ -1,11 +1,79 @@
 #!/usr/bin/env bash
+NEWDIR="${@: -1}"
 
-NEWDIR=$1
-
-if [ -z "$NEWDIR" ]; then
+if [ -z "$NEWDIR" ] || [ ${NEWDIR:0:1} == "-" ]; then
    echo "Please tell me what you want to call the new project"
    exit
 fi
+
+PHP_VERSION="7.1"
+APACHE_WEB_DIR="/var/www/html"
+VAGRANT_BOX="ubuntu/xenial64"
+FORWARD_GUEST_PORT="80"
+FORWARD_HOST_PORT="8080"
+
+echooption() {
+    echo "$1    $3"
+    echo "    ALIAS: $2"
+    echo "    DEFAULT: $4"
+}
+
+usage()
+{
+    echo "USAGE"
+    echo ""
+    echo "vagrant-create [options] [new project directory name]"
+    echo ""
+    echo "OPTIONS:"
+    echooption "--php" "-p" "Defines the version of php to install in the vagrant box" "7.1"
+    echooption "--vagrant-box" "-vb" "Use a different vagrant box" "ubuntu/xenial64"
+    echooption "--forward-host-port" "-fhp" "The host port to which we will forward the guest port" "8080"
+    echooption "--forward-guest-port" "-fgp" "The guest port from which we will forward to the host port" "80"
+    echooption "--apache-web-dir" "-awd" "The apache web directory from which apache will serve the application" "/var/www/html"
+    echo ""
+}
+
+while [ "$1" != "" ]; do
+    PARAM=`echo $1 | awk -F= '{print $1}'`
+    VALUE=`echo $1 | awk -F= '{print $2}'`
+    if [ ! -z "$VALUE" ]
+    then
+        case $PARAM in
+            -h | --help)
+                usage
+                exit
+                ;;
+            --php | -p)
+                unset PHP_VERSION
+                PHP_VERSION=$VALUE
+                ;;
+            --forward-host-port | -fhp)
+                unset FORWARD_HOST_PORT
+                FORWARD_HOST_PORT=$VALUE
+                ;;
+            --forward-guest-port | -fgp)
+                unset FORWARD_GUEST_PORT
+                FORWARD_GUEST_PORT=$VALUE
+                ;;
+            --apache-web-dir | -awd)
+                unset APACHE_WEB_DIR
+                APACHE_WEB_DIR=$VALUE
+                ;;
+            --vagrant-box | -vb)
+                unset VAGRANT_BOX
+                VAGRANT_BOX=$VALUE
+                ;;
+        esac
+    fi
+    shift
+done
+
+echo "Building vagrant $VAGRANT_BOX box: "
+echo "PHP VERSION: $PHP_VERSION"
+echo "APACHE WEB DIRECTORY: $APACHE_WEB_DIR"
+echo "FORWARD GUEST PORT $FORWARD_GUEST_PORT"
+echo "FORWARD HOST PORT $FORWARD_HOST_PORT"
+echo "IN NEW DIRECTORY $NEWDIR"
 
 echo "Creating new project: $NEWDIR"
 BASESOURCE=$(dirname $(readlink -f "$0"))/src
@@ -14,7 +82,7 @@ CURDIR=$(pwd)
 PROJDIR=$CURDIR/$NEWDIR
 
 # make our project directory
-if [ ! -d $1 ]
+if [ ! -d $PROJDIR ]
 then
     mkdir $PROJDIR
 else
@@ -26,7 +94,6 @@ mkprojdir() {
     TMPDIR=$PROJDIR/$1
     if [ ! -d $TMPDIR ]
     then
-        echo "CREATING DIRECTORY $TMPDIR"
         mkdir $TMPDIR
     else
         echo "$TMPDIR directory already exists"
@@ -44,7 +111,6 @@ cpfile()
     TMPPATH=$PROJDIR/$2
     if [ ! -f $TMPPATH ]
     then
-        echo "CREATING $TMPPATH"
         cp $BASESOURCE/$1 $TMPPATH
     else
         echo "File $2 already exists in $PROJDIR"
@@ -55,8 +121,24 @@ cpfile()
 cpfile downloads_README.txt downloads/README.txt
 cpfile apache_config_README.txt apache_logs/README.txt
 cpfile provisioner.sh setup_assets/provisioner.sh
+cpfile apache_config.conf setup_assets/apache_config.conf
 cpfile Vagrantfile Vagrantfile
 cpfile README.txt Readme.txt
+
+replaceStubbedString()
+{
+    TMPFILE=$PROJDIR/$3
+    SEDLINE="s|$1|$2|g"
+    echo $SEDLINE
+    echo $TMPFILE
+    sed -i $SEDLINE $TMPFILE
+}
+
+replaceStubbedString PHP_VERSION $PHP_VERSION Vagrantfile
+replaceStubbedString FORWARD_GUEST_PORT $FORWARD_GUEST_PORT Vagrantfile
+replaceStubbedString FORWARD_HOST_PORT $FORWARD_HOST_PORT Vagrantfile
+replaceStubbedString VAGRANT_BOX $VAGRANT_BOX Vagrantfile
+replaceStubbedString DOCUMENT_ROOT $APACHE_WEB_DIR setup_assets/apache_config.conf
 
 # cp -r $BASESOURCE/src $CURDIR/$NEWDIR
 
