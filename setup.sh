@@ -20,4 +20,4 @@ if [ -L $LINKPATH ]; then
     unlink $LINKPATH
 fi
 
-ln -s $INSTALLPATH/create_dev.sh $LINKPATH
+ln -s $INSTALLPATH/vagrant-create.sh $LINKPATH

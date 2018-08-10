@@ -68,9 +68,11 @@ apt-get update -y
 apt-get upgrade -y
 
 #enable mod_rewrite
+echo "Enabling rewrite"
 a2enmod rewrite
 
 #restart apache
+echo "Running service apache2 restart"
 service apache2 restart
 
-cd $DIR
+echo "Ok good to go. Happy Developing!"

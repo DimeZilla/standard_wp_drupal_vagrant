@@ -41,7 +41,7 @@ mkprojdir setup_assets
 
 cpfile()
 {
-    TMPPATH=$PROJDIR/$1
+    TMPPATH=$PROJDIR/$2
     if [ ! -f $TMPPATH ]
     then
         echo "CREATING $TMPPATH"

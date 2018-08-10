@@ -2,6 +2,10 @@
 ### author: Joshua Diamond <diamond.joshh@gmail.com>
 ### License: GNU GENERAL PUBLIC LICENSE
 
+# What
+Provides a linux command-line utility named `vagrant-create` for quickly creating vagrant projects.
+
+# Why
 I created this for me so that I could simply save my ideal vagrant setup for launching wordpress or drupal sites.
 
 # Dependencies
