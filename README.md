@@ -1,4 +1,7 @@
 # About
+### author: Joshua Diamond <diamond.joshh@gmail.com>
+### License: GNU GENERAL PUBLIC LICENSE
+
 I created this for me so that I could simply save my ideal vagrant setup for launching wordpress or drupal sites.
 
 # Dependencies
@@ -8,7 +11,8 @@ I created this for me so that I could simply save my ideal vagrant setup for lau
            if you try to run it in mac. not sure. Portability of this program is totally untested.
 
 # Installation
-Git clone the project, cd into the directory and run:
+View the releases tab to get a copy of the project.
+
 ```
 chmod +x setup.sh
 chmod +x craete_dev.sh
