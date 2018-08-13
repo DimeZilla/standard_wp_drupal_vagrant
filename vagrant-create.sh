@@ -129,8 +129,8 @@ replaceStubbedString()
 {
     TMPFILE=$PROJDIR/$3
     SEDLINE="s|$1|$2|g"
-    echo $SEDLINE
-    echo $TMPFILE
+    # echo $SEDLINE
+    # echo $TMPFILE
     sed -i $SEDLINE $TMPFILE
 }
 
