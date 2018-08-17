@@ -36,6 +36,7 @@ vagrant up
 ## Advanced Usage
 The command also supports a number of options:
 - `--php`  sets the php version that the vagrant box will install
+- `--network-type`  Set which type of network you want to use for the vagrant box. Forwarded and private are currently supported.
 - `--forward-guest-port`  sets which port on the box to foward to the host
 - `--forward-host-port`   sets which port on the host to view the guest port
 - `--apache-web-dir`    installs apache which a specific document root
@@ -46,6 +47,7 @@ This following command creates a directory called "my-project" and configures va
 
 ```
 vagrant-create --php=5.6 \
+    --network-type=forwarded \
     --forward-guest-port=8080 \
     --forward-host-port=3000 \
     --apache-web-dir=/var/www/html/public \
@@ -60,6 +62,7 @@ vagrant-create --php=5.6 \
 
 ### Defaults:
 - PHP: 7.1
+- NETWORK_TYPE: forwarded
 - FORWARD_GUEST_PORT: 80
 - FORWARD_HOST_PORT: 8080
 - APACHE_WEB_DIR: /var/www/html

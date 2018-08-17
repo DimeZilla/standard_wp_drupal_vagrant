@@ -9,6 +9,7 @@ fi
 PHP_VERSION="7.1"
 APACHE_WEB_DIR="/var/www/html"
 VAGRANT_BOX="ubuntu/xenial64"
+NETWORK_TYPE="forwarded"
 FORWARD_GUEST_PORT="80"
 FORWARD_HOST_PORT="8080"
 
@@ -27,6 +28,7 @@ usage()
     echo "OPTIONS:"
     echooption "--php" "-p" "Defines the version of php to install in the vagrant box" "7.1"
     echooption "--vagrant-box" "-vb" "Use a different vagrant box" "ubuntu/xenial64"
+    echooption "--network-type" "-nt" "Choose between 'private' and 'forwarded' networks" "forwarded"
     echooption "--forward-host-port" "-fhp" "The host port to which we will forward the guest port" "8080"
     echooption "--forward-guest-port" "-fgp" "The guest port from which we will forward to the host port" "80"
     echooption "--apache-web-dir" "-awd" "The apache web directory from which apache will serve the application" "/var/www/html"
@@ -63,17 +65,14 @@ while [ "$1" != "" ]; do
                 unset VAGRANT_BOX
                 VAGRANT_BOX=$VALUE
                 ;;
+            --network-type | -nt)
+                unset NETWORK_TYPE
+                NETWORK_TYPE=$VALUE
+                ;;
         esac
     fi
     shift
 done
-
-echo "Building vagrant $VAGRANT_BOX box: "
-echo "PHP VERSION: $PHP_VERSION"
-echo "APACHE WEB DIRECTORY: $APACHE_WEB_DIR"
-echo "FORWARD GUEST PORT $FORWARD_GUEST_PORT"
-echo "FORWARD HOST PORT $FORWARD_HOST_PORT"
-echo "IN NEW DIRECTORY $NEWDIR"
 
 echo "Creating new project: $NEWDIR"
 BASESOURCE=$(dirname $(readlink -f "$0"))/src
@@ -134,11 +133,27 @@ replaceStubbedString()
     sed -i $SEDLINE $TMPFILE
 }
 
-replaceStubbedString PHP_VERSION $PHP_VERSION Vagrantfile
-replaceStubbedString FORWARD_GUEST_PORT $FORWARD_GUEST_PORT Vagrantfile
-replaceStubbedString FORWARD_HOST_PORT $FORWARD_HOST_PORT Vagrantfile
+
+echo "Building vagrant $VAGRANT_BOX box: "
 replaceStubbedString VAGRANT_BOX $VAGRANT_BOX Vagrantfile
+
+echo "PHP VERSION: $PHP_VERSION"
+replaceStubbedString PHP_VERSION $PHP_VERSION Vagrantfile
+
+echo "NETWORK TYPE IS: $NETWORK_TYPE"
+replaceStubbedString NETWORK_TYPE $NETWORK_TYPE Vagrantfile
+if [ "$NETWORK_TYPE" != "private" ]
+then
+    echo "FORWARD GUEST PORT $FORWARD_GUEST_PORT"
+    replaceStubbedString FORWARD_GUEST_PORT $FORWARD_GUEST_PORT Vagrantfile
+    echo "FORWARD HOST PORT $FORWARD_HOST_PORT"
+    replaceStubbedString FORWARD_HOST_PORT $FORWARD_HOST_PORT Vagrantfile
+fi
+
+echo "APACHE WEB DIRECTORY: $APACHE_WEB_DIR"
 replaceStubbedString DOCUMENT_ROOT $APACHE_WEB_DIR setup_assets/apache_config.conf
+
+echo "IN NEW DIRECTORY $NEWDIR"
 
 # cp -r $BASESOURCE/src $CURDIR/$NEWDIR
 

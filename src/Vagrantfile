@@ -2,9 +2,6 @@ Vagrant.configure(2) do |config|
   # This is which box to use
   config.vm.box = "VAGRANT_BOX"
 
-  # Setting up a forward port network to point to 8080
-  config.vm.network "forwarded_port", guest: FORWARD_GUEST_PORT, host: FORWARD_HOST_PORT
-
   # lets give it a name that matches the folder name
   # This makes it so that we can store our meta data
   # anywhere by calling the machines folder something other than default
@@ -27,7 +24,18 @@ Vagrant.configure(2) do |config|
     config.vm.provision "shell", path: "./setup_assets/provisioner.sh", args: [version]
   end
 
-  # config.vm.provision "shell", run: "always" do |s|
-  #   s.inline = "echo \"IP address for host file: \" && ifconfig enp0s8 | grep \"inet addr\" | awk '{ print $2 }' | sed -n -e 's/.*://p'"
-  # end
+  # Option to create a forward port network
+  # or a private network. we want to always land on
+  # forwarded port unless private is explicitly set.
+  networkType = "NETWORK_TYPE"
+  if networkType == "private"
+    config.vm.network "private_network", type: "dhcp"
+    # If we are using a private network - lets have it tell us what the ip is when its launched
+    config.vm.provision "shell", run: "always" do |s|
+      s.inline = "echo \"IP address for host file: \" && ifconfig enp0s8 | grep \"inet addr\" | awk '{ print $2 }' | sed -n -e 's/.*://p'"
+    end
+  else
+    config.vm.network "forwarded_port", guest: FORWARD_GUEST_PORT, host: FORWARD_HOST_PORT
+  end
+
 end

@@ -2,6 +2,7 @@ webfiles
 webfiles/
 webfiles/*
 downloads/*
+testing/
 .vagrant
 node_modules
 .bower
