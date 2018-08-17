@@ -38,4 +38,11 @@ Vagrant.configure(2) do |config|
     config.vm.network "forwarded_port", guest: FORWARD_GUEST_PORT, host: FORWARD_HOST_PORT
   end
 
+  # noticed some strange behavior with apache
+  # so at the start and stop of all boxes lets restart apache
+  config.vm.provision "shell", run: "always" do |s|
+    s.inline = "service apache2 stop"
+    s.inline = "service apache2 start"
+  end
+
 end
