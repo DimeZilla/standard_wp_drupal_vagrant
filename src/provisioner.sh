@@ -13,8 +13,8 @@ apt-get upgrade -y
 # fail when a package no longer exsists
 dependencies=( "apache2" "libapache2-mod-auth-mysql" "mysql-client" "python-software-properties" )
 
-phpdeps=( "php" "php-mysql" "php-mcrypt" "php-common" "php-xml" "php-gd" "libapache2-mod-php" "php-mbstring" )
-phpVersionedDeps=( "php$VERSION" "php$VERSION-mysql" "php$VERSION-mcrypt" "php$VERSION-common" "php$VERSION-xml" "php$VERSION-gd" "libapache2-mod-php$VERSION" "php$VERSION-mbstring" )
+phpdeps=( "php" "php-mysql" "php-mcrypt" "php-common" "php-xml" "php-gd" "libapache2-mod-php" "php-mbstring" "php-curl" )
+phpVersionedDeps=( "php$VERSION" "php$VERSION-mysql" "php$VERSION-mcrypt" "php$VERSION-common" "php$VERSION-xml" "php$VERSION-gd" "libapache2-mod-php$VERSION" "php$VERSION-mbstring" "php$VERSION-curl" )
 
 depInstaller(){
     deps=("${!1}")
